@@ -1,5 +1,6 @@
 package bookstore;
 
-public class Book {
+public abstract class Book {
 
+	public abstract double computeCost();
 }
