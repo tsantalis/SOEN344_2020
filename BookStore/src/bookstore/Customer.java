@@ -7,6 +7,11 @@ public class Customer {
 
 	private List<Order> orders;
 	private String name;
+	private CreditCardInfo creditCard;
+	
+	public Customer(long creditCardNumber, Date expirationDate) {
+		this.creditCard = new CreditCardInfo(creditCardNumber, expirationDate);
+	}
 	
 	public double computeCost() {
 		double totalCost = 0;
@@ -16,8 +21,13 @@ public class Customer {
 		return totalCost;
 	}
 	
-	public class CreditCardInfo {
+	private class CreditCardInfo {
 		private long number;
 		private Date expiration;
+		
+		public CreditCardInfo(long number, Date expiration) {
+			this.number = number;
+			this.expiration = expiration;
+		}
 	}
 }
