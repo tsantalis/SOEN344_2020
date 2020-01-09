@@ -1,5 +1,6 @@
 package bookstore;
 
+import java.util.Date;
 import java.util.List;
 
 public class Customer {
@@ -13,5 +14,10 @@ public class Customer {
 			totalCost += order.computeCost();
 		}
 		return totalCost;
+	}
+	
+	public class CreditCardInfo {
+		private long number;
+		private Date expiration;
 	}
 }
