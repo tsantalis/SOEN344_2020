@@ -2,10 +2,11 @@ package bookstore;
 
 public class RegularBook extends Book {
 
+	private double shippingCost;
+	
 	@Override
 	public double computeCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return price + shippingCost;
 	}
 
 }
