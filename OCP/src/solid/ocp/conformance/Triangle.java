@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 
-public class Triangle {
+public class Triangle implements Drawable {
 	private Point point1;
 	private Point point2;
 	private Point point3;

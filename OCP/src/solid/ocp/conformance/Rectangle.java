@@ -2,7 +2,7 @@ package solid.ocp.conformance;
 
 import java.awt.Graphics;
 
-public class Rectangle {
+public class Rectangle implements Drawable {
 
 	private int topLeftX;
 	private int topLeftY;

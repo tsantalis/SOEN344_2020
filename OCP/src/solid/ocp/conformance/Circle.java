@@ -2,7 +2,7 @@ package solid.ocp.conformance;
 
 import java.awt.Graphics;
 
-public class Circle {
+public class Circle implements Drawable {
 
 	private int centerX;
 	private int centerY;
