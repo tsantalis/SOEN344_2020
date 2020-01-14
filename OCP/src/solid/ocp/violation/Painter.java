@@ -7,6 +7,7 @@ import java.util.List;
 public class Painter {
 	private List<Rectangle> rectangles;
 	private List<Circle> circles;
+	private List<Triangle> triangles;
 	
 	public void paintComponent(Graphics g) {
 		for(Rectangle rect : rectangles) {
@@ -22,6 +23,13 @@ public class Painter {
 					c.getRadius()*2,
 					0,
 					360);
+		}
+		for(Triangle triangle : triangles) {
+			Polygon polygon = new Polygon();
+			polygon.addPoint(triangle.getPoint1().x, triangle.getPoint1().y);
+			polygon.addPoint(triangle.getPoint2().x, triangle.getPoint2().y);
+			polygon.addPoint(triangle.getPoint3().x, triangle.getPoint3().y);
+			g.drawPolygon(polygon);
 		}
 	}
 }
