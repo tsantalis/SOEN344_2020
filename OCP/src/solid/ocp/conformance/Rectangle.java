@@ -31,4 +31,11 @@ public class Rectangle {
 	public int getHeight() {
 		return height;
 	}
+	
+	public void draw(Graphics g) {
+		g.drawRect(this.getTopLeftX(),
+				this.getTopLeftY(),
+				this.getWidth(),
+				this.getHeight());
+	}
 }

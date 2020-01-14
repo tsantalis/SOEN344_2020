@@ -26,4 +26,12 @@ public class Triangle {
 	public Point getPoint3() {
 		return point3;
 	}
+	
+	public void draw(Graphics g) {
+		Polygon polygon = new Polygon();
+		polygon.addPoint(this.getPoint1().x, this.getPoint1().y);
+		polygon.addPoint(this.getPoint2().x, this.getPoint2().y);
+		polygon.addPoint(this.getPoint3().x, this.getPoint3().y);
+		g.drawPolygon(polygon);
+	}
 }

@@ -26,4 +26,12 @@ public class Circle {
 		return radius;
 	}
 
+	public void draw(Graphics g) {
+		g.drawArc(this.getCenterX()-this.getRadius(),
+				this.getCenterY()-this.getRadius(),
+				this.getRadius()*2,
+				this.getRadius()*2,
+				0,
+				360);
+	}
 }
