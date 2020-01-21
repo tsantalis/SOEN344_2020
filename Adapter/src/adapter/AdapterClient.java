@@ -13,7 +13,7 @@ public class AdapterClient {
 		StringTokenizer tokenizer = new StringTokenizer(input);
 		
 		//the iterator should iterate over the elements of the tokenizer
-		Iterator<String> iterator = null;//new TokenizerToIteratorAdapter(tokenizer);
+		Iterator<String> iterator = new TokenizerToIteratorAdapter(tokenizer);
 		
 		//function elementsToString() takes as input an Iterator
 		String output = CollectionLibrary.elementsToMultilineString(iterator);
