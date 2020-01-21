@@ -11,12 +11,12 @@ public class TokenizerToIteratorAdapter implements Iterator<String> {
 
 	@Override
 	public boolean hasNext() {
-		return false;
+		return tokenizer.hasMoreTokens();
 	}
 
 	@Override
 	public String next() {
-		return null;
+		return tokenizer.nextToken();
 	}
 
 }
