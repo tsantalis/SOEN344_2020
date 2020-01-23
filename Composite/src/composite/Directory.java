@@ -26,4 +26,22 @@ public class Directory extends AbstractFile {
 		super(name, depth);
 	}
 
+	@Override
+	public String ls() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(printTabs()).append(getName()).append("\n");
+		for(AbstractFile file : contents) {
+			sb.append(file.ls());
+		}
+		return sb.toString();
+	}
+
+	@Override
+	public long size() {
+		long size = 0;
+		for(AbstractFile file : contents) {
+			size += file.size();
+		}
+		return size;
+	}
 }

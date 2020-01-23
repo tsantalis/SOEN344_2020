@@ -1,12 +1,26 @@
 package composite;
 
 public abstract class AbstractFile {
-	protected String name;
-	protected int depth;
+	private String name;
+	private int depth;
 	
 	public AbstractFile(String name, int depth) {
 		this.name = name;
 		this.depth = depth;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	protected String printTabs() {
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<depth; i++) {
+			sb.append("\t");
+		}
+		return sb.toString();
+	}
+
+	public abstract String ls();
+	public abstract long size();
 }

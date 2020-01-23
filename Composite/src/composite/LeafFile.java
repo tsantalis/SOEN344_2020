@@ -8,4 +8,15 @@ public class LeafFile extends AbstractFile {
 		this.size = size;
 	}
 
+	@Override
+	public String ls() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(printTabs()).append(getName()).append("\n");
+		return sb.toString();
+	}
+
+	@Override
+	public long size() {
+		return size;
+	}
 }

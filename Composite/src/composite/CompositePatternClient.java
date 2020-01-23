@@ -17,8 +17,8 @@ public class CompositePatternClient {
 			File selectedDirectory = chooser.getSelectedFile();
 
 			AbstractFile topDir = new Directory(selectedDirectory);
-			//System.out.println(topDir.ls());
-			//System.out.println(topDir.size());
+			System.out.println(topDir.ls());
+			System.out.println(topDir.size());
 			//System.out.println(topDir.countFiles());
 		}
 	}
