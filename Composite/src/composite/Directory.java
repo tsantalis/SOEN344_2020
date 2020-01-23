@@ -24,7 +24,7 @@ public class Directory extends AbstractFile {
 		}
 	}
 	
-	public Directory(String name, int depth) {
+	private Directory(String name, int depth) {
 		super(name, depth);
 	}
 

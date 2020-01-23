@@ -6,7 +6,7 @@ public abstract class AbstractFile {
 	private String name;
 	private int depth;
 	
-	public AbstractFile(String name, int depth) {
+	protected AbstractFile(String name, int depth) {
 		this.name = name;
 		this.depth = depth;
 	}
