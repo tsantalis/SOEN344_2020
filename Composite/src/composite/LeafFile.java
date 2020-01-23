@@ -1,5 +1,7 @@
 package composite;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 public class LeafFile extends AbstractFile {
 	private long size;
 	
@@ -23,5 +25,10 @@ public class LeafFile extends AbstractFile {
 	@Override
 	public int countFiles() {
 		return 1;
+	}
+
+	@Override
+	public DefaultMutableTreeNode createNode() {
+		return new DefaultMutableTreeNode(getName());
 	}
 }

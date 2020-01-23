@@ -1,5 +1,7 @@
 package composite;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 public abstract class AbstractFile {
 	private String name;
 	private int depth;
@@ -24,4 +26,5 @@ public abstract class AbstractFile {
 	public abstract String ls();
 	public abstract long size();
 	public abstract int countFiles();
+	public abstract DefaultMutableTreeNode createNode();
 }

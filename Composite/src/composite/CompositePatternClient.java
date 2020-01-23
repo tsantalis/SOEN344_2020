@@ -3,6 +3,9 @@ package composite;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 
 public class CompositePatternClient {
 
@@ -20,6 +23,14 @@ public class CompositePatternClient {
 			System.out.println(topDir.ls());
 			System.out.println(topDir.size());
 			System.out.println(topDir.countFiles());
+			
+			JFrame frame = new JFrame();
+			JTree tree = new JTree(topDir.createNode());
+			JScrollPane scrollPane = new JScrollPane(tree);
+			frame.getContentPane().add(scrollPane);
+			frame.pack();
+			frame.setVisible(true);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 	}
 }

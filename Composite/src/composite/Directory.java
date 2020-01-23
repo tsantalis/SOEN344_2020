@@ -3,6 +3,8 @@ package composite;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 public class Directory extends AbstractFile {
 	private List<AbstractFile> contents = new ArrayList<AbstractFile>();
 	
@@ -52,5 +54,14 @@ public class Directory extends AbstractFile {
 			count += file.countFiles();
 		}
 		return count;
+	}
+
+	@Override
+	public DefaultMutableTreeNode createNode() {
+		DefaultMutableTreeNode parentNode = new DefaultMutableTreeNode(getName());
+		for(AbstractFile file : contents) {
+			parentNode.add(file.createNode());
+		}
+		return parentNode;
 	}
 }
