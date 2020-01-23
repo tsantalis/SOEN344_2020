@@ -17,6 +17,7 @@ public class RecursiveSolution {
 	    	File selectedDirectory = chooser.getSelectedFile();
 	    	System.out.println(ls(selectedDirectory, 0));
 	    	System.out.println(size(selectedDirectory));
+	    	System.out.println(countFiles(selectedDirectory));
 	    }
 	}
 	
@@ -47,6 +48,20 @@ public class RecursiveSolution {
 		else {
 			sb.append(printTabs(depth)).append(parentFile.getName()).append("\n");
 			return sb.toString();
+		}
+	}
+	
+	private static int countFiles(File parentFile) {
+		int count = 0;
+		if(parentFile.isDirectory()) {
+			File[] files = parentFile.listFiles();
+			for(File file : files) {
+				count += countFiles(file);
+			}
+			return count;
+		}
+		else {
+			return 1;
 		}
 	}
 
