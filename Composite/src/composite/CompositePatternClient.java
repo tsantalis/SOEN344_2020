@@ -19,7 +19,7 @@ public class CompositePatternClient {
 			AbstractFile topDir = new Directory(selectedDirectory);
 			System.out.println(topDir.ls());
 			System.out.println(topDir.size());
-			//System.out.println(topDir.countFiles());
+			System.out.println(topDir.countFiles());
 		}
 	}
 }

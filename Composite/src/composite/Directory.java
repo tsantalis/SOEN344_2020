@@ -44,4 +44,13 @@ public class Directory extends AbstractFile {
 		}
 		return size;
 	}
+
+	@Override
+	public int countFiles() {
+		int count = 0;
+		for(AbstractFile file : contents) {
+			count += file.countFiles();
+		}
+		return count;
+	}
 }

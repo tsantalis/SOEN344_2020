@@ -19,4 +19,9 @@ public class LeafFile extends AbstractFile {
 	public long size() {
 		return size;
 	}
+
+	@Override
+	public int countFiles() {
+		return 1;
+	}
 }

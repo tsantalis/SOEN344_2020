@@ -23,4 +23,5 @@ public abstract class AbstractFile {
 
 	public abstract String ls();
 	public abstract long size();
+	public abstract int countFiles();
 }
