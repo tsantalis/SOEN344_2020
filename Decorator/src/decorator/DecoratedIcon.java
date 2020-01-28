@@ -45,20 +45,23 @@ public class DecoratedIcon implements Icon {
 
 	public void paintIcon(Component owner, Graphics g, int x, int y) {
 		// paint original icon first
-
+		originalIcon.paintIcon(owner, g, x, y);
 		// compute the x, y coordinates of the decoration icon based on its location
 		int decorationX = x;
 		int decorationY = y;
 		// augment x
 		if(location == Location.UPPER_RIGHT || location == Location.LOWER_RIGHT) {
 			// compute decorationX based on xDiff
+			decorationX += xDiff;
 		}
 		// augment y
 		if(location == Location.LOWER_LEFT || location == Location.LOWER_RIGHT) {
 			// compute decorationY based on yDiff
+			decorationY += yDiff;
 		}
 		
 		// paint decoration icon last, based on computed decorationX, decorationY values
+		decorationIcon.paintIcon(owner, g, decorationX, decorationY);
 	}
 }
 
