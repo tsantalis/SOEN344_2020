@@ -24,9 +24,15 @@ public class DecoratedIcon implements Icon {
 		this.originalIcon = original;
 		this.decorationIcon = decoration;
 		// add some logic to check that the decoration icon has smaller dimensions than the original icon
+		if(decorationIcon.getIconWidth() >= originalIcon.getIconWidth() ||
+				decorationIcon.getIconHeight() >= originalIcon.getIconHeight()) {
+			throw new IllegalArgumentException("the decoration icon is larger than the base icon");
+		}
 		
 		// compute xDiff as the difference in the width of the original and decoration icon
+		this.xDiff = originalIcon.getIconWidth() - decorationIcon.getIconWidth();
 		// compute yDiff as the difference in the height of the original and decoration icon
+		this.yDiff = originalIcon.getIconHeight() - decorationIcon.getIconHeight();
 	}
 
 	public int getIconHeight() {
