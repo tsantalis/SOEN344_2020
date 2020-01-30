@@ -3,9 +3,14 @@ package singleton;
 import java.util.Map;
 
 public class Singleton {
+	private static Singleton instance = new Singleton();
+
+	private Singleton() {
+		
+	}
 
 	public static Singleton getInstance() {
-		return null;
+		return instance;
 	}
 	
 	private Map<String, String> cache;
