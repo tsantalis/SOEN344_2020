@@ -12,16 +12,6 @@ public class ChatAccess extends Observable {
 	private Socket socket;
 	private OutputStream outputStream;
 
-	public ChatAccess(String server, int port) {
-		try {
-			initSocket(server,port);
-		} catch (IOException ex) {
-			System.out.println("Cannot connect to " + server + ":" + port);
-			ex.printStackTrace();
-			System.exit(0);
-		}
-	}
-
 	@Override
 	public void notifyObservers(Object arg) {
 		super.setChanged();
@@ -29,7 +19,7 @@ public class ChatAccess extends Observable {
 	}
 
 	/** Create socket, and receiving thread */
-	private void initSocket(String server, int port) throws IOException {
+	public void initSocket(String server, int port) throws IOException {
 		socket = new Socket(server, port);
 		outputStream = socket.getOutputStream();
 
