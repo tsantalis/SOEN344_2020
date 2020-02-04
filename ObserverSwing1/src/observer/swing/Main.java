@@ -6,12 +6,13 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JSlider;
+import javax.swing.JTextField;
 
 public class Main {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		frame.setLayout(new GridLayout(2, 1));
+		frame.setLayout(new GridLayout(3, 1));
 		
 		//slider is the concrete subject, which extends javax.swing.JComponent
 	    //JSlider:addChangeListener(ChangeListener l) registers a ChangeListener (i.e., an Observer)
@@ -46,12 +47,15 @@ public class Main {
 		*** fireStateChanged() is called when the user moves the slider
 	     */
 	    
+	    JTextField textField = new JTextField();
+	    slider.addChangeListener(new TextFieldProgressListener(textField));
+	    
 	    frame.add(slider);
 	    frame.add(progressBar);
+	    frame.add(textField);
 	    frame.pack();
 	    frame.setLocationRelativeTo(null);
 	    frame.setVisible(true);
-
 	}
 
 }
