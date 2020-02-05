@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="jd.metrics"
+            objectClass="org.eclipse.jdt.core.IJavaElement">
+         <action
+               class="view.MetricsAction"
+               id="view.MetricsAction"
+               label="Metrics...">
+         </action>
+      </objectContribution>
+   </extension>
+</plugin>
