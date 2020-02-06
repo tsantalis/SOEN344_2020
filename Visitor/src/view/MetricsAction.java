@@ -131,9 +131,9 @@ public class MetricsAction  implements IObjectActionDelegate {
 									SystemCallCounter systemCallCounter = new SystemCallCounter();
 									method.accept(systemCallCounter);
 									System.out.println(systemCallCounter.getfAccessesToSystemFields());
-									//NestedIfStatementCollector nestedIfCollector = new NestedIfStatementCollector();
-									//method.accept(nestedIfCollector);
-									//System.out.println(nestedIfCollector.getNestedIfStatements());
+									NestedIfStatementCollector nestedIfCollector = new NestedIfStatementCollector();
+									method.accept(nestedIfCollector);
+									System.out.println(nestedIfCollector.getNestedIfStatements());
 								}
 							}
 						}
