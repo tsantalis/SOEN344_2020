@@ -3,7 +3,7 @@ package composite;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import composite.visitor.Visitor;
 
 public class Directory extends AbstractFile {
 	private List<AbstractFile> contents = new ArrayList<AbstractFile>();
@@ -29,39 +29,11 @@ public class Directory extends AbstractFile {
 	}
 
 	@Override
-	public String ls() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(printTabs()).append(getName()).append("\n");
+	public void accept(Visitor v) {
+		v.visit(this);
 		for(AbstractFile file : contents) {
-			sb.append(file.ls());
+			file.accept(v);
 		}
-		return sb.toString();
-	}
-
-	@Override
-	public long size() {
-		long size = 0;
-		for(AbstractFile file : contents) {
-			size += file.size();
-		}
-		return size;
-	}
-
-	@Override
-	public int countFiles() {
-		int count = 0;
-		for(AbstractFile file : contents) {
-			count += file.countFiles();
-		}
-		return count;
-	}
-
-	@Override
-	public DefaultMutableTreeNode createNode() {
-		DefaultMutableTreeNode parentNode = new DefaultMutableTreeNode(getName());
-		for(AbstractFile file : contents) {
-			parentNode.add(file.createNode());
-		}
-		return parentNode;
+		v.endVisit(this);
 	}
 }

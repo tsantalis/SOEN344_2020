@@ -1,6 +1,6 @@
 package composite;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import composite.visitor.Visitor;
 
 public abstract class AbstractFile {
 	private String name;
@@ -15,7 +15,11 @@ public abstract class AbstractFile {
 		return name;
 	}
 
-	protected String printTabs() {
+	public int getDepth() {
+		return depth;
+	}
+
+	public String printTabs() {
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<depth; i++) {
 			sb.append("\t");
@@ -23,8 +27,5 @@ public abstract class AbstractFile {
 		return sb.toString();
 	}
 
-	public abstract String ls();
-	public abstract long size();
-	public abstract int countFiles();
-	public abstract DefaultMutableTreeNode createNode();
+	public abstract void accept(Visitor v);
 }

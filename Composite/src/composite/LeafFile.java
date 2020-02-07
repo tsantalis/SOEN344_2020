@@ -1,6 +1,6 @@
 package composite;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import composite.visitor.Visitor;
 
 public class LeafFile extends AbstractFile {
 	private long size;
@@ -10,25 +10,12 @@ public class LeafFile extends AbstractFile {
 		this.size = size;
 	}
 
-	@Override
-	public String ls() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(printTabs()).append(getName()).append("\n");
-		return sb.toString();
-	}
-
-	@Override
-	public long size() {
+	public long getSize() {
 		return size;
 	}
 
 	@Override
-	public int countFiles() {
-		return 1;
-	}
-
-	@Override
-	public DefaultMutableTreeNode createNode() {
-		return new DefaultMutableTreeNode(getName());
+	public void accept(Visitor v) {
+		v.visit(this);		
 	}
 }

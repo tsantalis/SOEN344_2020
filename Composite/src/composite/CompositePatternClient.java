@@ -7,6 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
+import composite.visitor.FileSizeVisitor;
+import composite.visitor.FileStructureVisitor;
+import composite.visitor.LeafFileCountVisitor;
+import composite.visitor.NodeStructureVisitor;
+
 public class CompositePatternClient {
 
 	public static void main(String args[]) {
@@ -20,12 +25,23 @@ public class CompositePatternClient {
 			File selectedDirectory = chooser.getSelectedFile();
 
 			AbstractFile topDir = new Directory(selectedDirectory);
-			System.out.println(topDir.ls());
-			System.out.println(topDir.size());
-			System.out.println(topDir.countFiles());
+			
+			FileStructureVisitor structureVisitor = new FileStructureVisitor();
+			topDir.accept(structureVisitor);
+			System.out.println(structureVisitor.ls());
+			
+			FileSizeVisitor sizeVisitor = new FileSizeVisitor();
+			topDir.accept(sizeVisitor);
+			System.out.println(sizeVisitor.getSize());
+			
+			LeafFileCountVisitor countVisitor = new LeafFileCountVisitor();
+			topDir.accept(countVisitor);
+			System.out.println(countVisitor.getCount());
 			
 			JFrame frame = new JFrame();
-			JTree tree = new JTree(topDir.createNode());
+			NodeStructureVisitor visitor = new NodeStructureVisitor();
+			topDir.accept(visitor);
+			JTree tree = new JTree(visitor.getRoot());
 			JScrollPane scrollPane = new JScrollPane(tree);
 			frame.getContentPane().add(scrollPane);
 			frame.pack();
