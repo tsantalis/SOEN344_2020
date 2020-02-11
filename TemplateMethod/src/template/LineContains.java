@@ -101,10 +101,11 @@ public final class LineContains
             Parameter[] params = getParameters();
 			if (params != null) {
 			    for (int i = 0; i < params.length; i++) {
-			        if (CONTAINS_KEY.equals(params[i].getType())) {
-			            contains.addElement(params[i].getValue());
-			        } else if (NEGATE_KEY.equals(params[i].getType())) {
-			            setNegate(Project.toBoolean(params[i].getValue()));
+			        Parameter parameter = params[i];
+					if (CONTAINS_KEY.equals(parameter.getType())) {
+			            contains.addElement(parameter.getValue());
+			        } else if (NEGATE_KEY.equals(parameter.getType())) {
+			            setNegate(Project.toBoolean(parameter.getValue()));
 			        }
 			    }
 			}
