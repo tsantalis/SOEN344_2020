@@ -119,11 +119,7 @@ public final class LineContains
             }
         } else {
             for (line = readLine(); line != null; line = readLine()) {
-                boolean matches = true;
-                for (int i = 0; matches && i < contains.size(); i++) {
-                    String containsStr = (String) contains.elementAt(i);
-                    matches = line.indexOf(containsStr) >= 0;
-                }
+                boolean matches = match();
                 if (matches ^ isNegated()) {
                     break;
                 }
@@ -134,6 +130,15 @@ public final class LineContains
         }
         return ch;
     }
+
+	private boolean match() {
+		boolean matches = true;
+		for (int i = 0; matches && i < contains.size(); i++) {
+		    String containsStr = (String) contains.elementAt(i);
+		    matches = line.indexOf(containsStr) >= 0;
+		}
+		return matches;
+	}
 
 	private void initialize(Parameter parameter) {
 		if (CONTAINS_KEY.equals(parameter.getType())) {
