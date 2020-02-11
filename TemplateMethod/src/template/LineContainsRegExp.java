@@ -17,7 +17,6 @@
  */
 package template;
 
-import java.io.IOException;
 import java.io.Reader;
 import java.util.Vector;
 import org.apache.tools.ant.Project;
@@ -57,15 +56,6 @@ public final class LineContainsRegExp
     private Vector<RegularExpression> regexps = new Vector<RegularExpression>();
 
     /**
-     * Remaining line to be read from this filter, or <code>null</code> if
-     * the next call to <code>read()</code> should read the original stream
-     * to find the next matching line.
-     */
-    private String line = null;
-
-    private boolean negate = false;
-
-    /**
      * Constructor for "dummy" instances.
      *
      * @see BaseFilterReader#BaseFilterReader()
@@ -84,53 +74,7 @@ public final class LineContainsRegExp
         super(in);
     }
 
-    /**
-     * Returns the next character in the filtered stream, only including
-     * lines from the original stream which match all of the specified
-     * regular expressions.
-     *
-     * @return the next character in the resulting stream, or -1
-     * if the end of the resulting stream has been reached
-     *
-     * @exception IOException if the underlying stream throws an IOException
-     * during reading
-     */
-    public int read() throws IOException {
-        if (!getInitialized()) {
-            Parameter[] params = getParameters();
-			if (params != null) {
-			    for (int i = 0; i < params.length; i++) {
-			        Parameter parameter = params[i];
-					initialize(parameter);
-			    }
-			}
-            setInitialized(true);
-        }
-
-        int ch = -1;
-
-        if (line != null) {
-            ch = line.charAt(0);
-            if (line.length() == 1) {
-                line = null;
-            } else {
-                line = line.substring(1);
-            }
-        } else {
-            for (line = readLine(); line != null; line = readLine()) {
-                boolean matches = match();
-                if (matches ^ isNegated()) {
-                    break;
-                }
-            }
-            if (line != null) {
-                return read();
-            }
-        }
-        return ch;
-    }
-
-	private boolean match() {
+    public boolean match() {
 		boolean matches = true;
 		for (int i = 0; matches && i < regexps.size(); i++) {
 		    RegularExpression regexp
@@ -141,7 +85,7 @@ public final class LineContainsRegExp
 		return matches;
 	}
 
-	private void initialize(Parameter parameter) {
+	public void initialize(Parameter parameter) {
 		if (REGEXP_KEY.equals(parameter.getType())) {
 		    String pattern = parameter.getValue();
 		    RegularExpression regexp = new RegularExpression();
@@ -204,21 +148,5 @@ public final class LineContainsRegExp
         newFilter.setRegexps(getRegexps());
         newFilter.setNegate(isNegated());
         return newFilter;
-    }
-
-    /**
-     * Set the negation mode.  Default false (no negation).
-     * @param b the boolean negation mode to set.
-     */
-    public void setNegate(boolean b) {
-        negate = b;
-    }
-
-    /**
-     * Find out whether we have been negated.
-     * @return boolean negation flag.
-     */
-    public boolean isNegated() {
-        return negate;
     }
 }
