@@ -102,11 +102,7 @@ public final class LineContains
 			if (params != null) {
 			    for (int i = 0; i < params.length; i++) {
 			        Parameter parameter = params[i];
-					if (CONTAINS_KEY.equals(parameter.getType())) {
-			            contains.addElement(parameter.getValue());
-			        } else if (NEGATE_KEY.equals(parameter.getType())) {
-			            setNegate(Project.toBoolean(parameter.getValue()));
-			        }
+					initialize(parameter);
 			    }
 			}
             setInitialized(true);
@@ -140,6 +136,14 @@ public final class LineContains
         }
         return ch;
     }
+
+	private void initialize(Parameter parameter) {
+		if (CONTAINS_KEY.equals(parameter.getType())) {
+		    contains.addElement(parameter.getValue());
+		} else if (NEGATE_KEY.equals(parameter.getType())) {
+		    setNegate(Project.toBoolean(parameter.getValue()));
+		}
+	}
 
     /**
      * Adds a <code>contains</code> element.

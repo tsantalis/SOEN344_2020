@@ -101,14 +101,7 @@ public final class LineContainsRegExp
 			if (params != null) {
 			    for (int i = 0; i < params.length; i++) {
 			        Parameter parameter = params[i];
-					if (REGEXP_KEY.equals(parameter.getType())) {
-			            String pattern = parameter.getValue();
-			            RegularExpression regexp = new RegularExpression();
-			            regexp.setPattern(pattern);
-			            regexps.addElement(regexp);
-			        } else if (NEGATE_KEY.equals(parameter.getType())) {
-			            setNegate(Project.toBoolean(parameter.getValue()));
-			        }
+					initialize(parameter);
 			    }
 			}
             setInitialized(true);
@@ -144,6 +137,17 @@ public final class LineContainsRegExp
         }
         return ch;
     }
+
+	private void initialize(Parameter parameter) {
+		if (REGEXP_KEY.equals(parameter.getType())) {
+		    String pattern = parameter.getValue();
+		    RegularExpression regexp = new RegularExpression();
+		    regexp.setPattern(pattern);
+		    regexps.addElement(regexp);
+		} else if (NEGATE_KEY.equals(parameter.getType())) {
+		    setNegate(Project.toBoolean(parameter.getValue()));
+		}
+	}
 
     /**
      * Adds a <code>regexp</code> element.
