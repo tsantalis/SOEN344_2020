@@ -19,6 +19,8 @@ package template;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.apache.tools.ant.filters.BaseFilterReader;
 import org.apache.tools.ant.types.Parameter;
@@ -60,9 +62,9 @@ public abstract class BaseParamFilterReader
         super(in);
     }
 
-    public abstract void initialize(Parameter parameter);
+    //public abstract void initialize(Parameter parameter);
 
-	public abstract boolean match();
+	//public abstract boolean match();
 
 	/**
      * Sets the parameters used by this filter, and sets
@@ -95,13 +97,13 @@ public abstract class BaseParamFilterReader
 	 * @exception IOException if the underlying stream throws an IOException
 	 * during reading
 	 */
-	public int read() throws IOException {
+	protected int read(Consumer<Parameter> initializer, Supplier<Boolean> matcher) throws IOException {
 	    if (!getInitialized()) {
 	        Parameter[] params = getParameters();
 			if (params != null) {
 			    for (int i = 0; i < params.length; i++) {
 			        Parameter parameter = params[i];
-					initialize(parameter);
+					initializer.accept(parameter);
 			    }
 			}
 	        setInitialized(true);
@@ -118,7 +120,7 @@ public abstract class BaseParamFilterReader
 	        }
 	    } else {
 	        for (line = readLine(); line != null; line = readLine()) {
-	            boolean matches = match();
+	            boolean matches = matcher.get();
 	            if (matches ^ isNegated()) {
 	                break;
 	            }
