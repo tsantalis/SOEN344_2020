@@ -1,11 +1,10 @@
 package command;
 
-public class MoveCommand implements RobotCommand {
+public class MoveCommand extends RobotCommand {
 	private int forwardDistance;
-	private Robot _robot;
 
 	public MoveCommand(Robot robot, int forwardDistance) {
-		this._robot = robot;
+		super(robot);
 		this.forwardDistance = forwardDistance;
 	}
 

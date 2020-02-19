@@ -1,11 +1,10 @@
 package command;
 
-public class RotateCommand implements RobotCommand {
+public class RotateCommand extends RobotCommand {
 	private double leftRotation;
-	private Robot _robot;
 
 	public RotateCommand(Robot robot, double leftRotation) {
-		this._robot = robot;
+		super(robot);
 		this.leftRotation = leftRotation;
 	}
 

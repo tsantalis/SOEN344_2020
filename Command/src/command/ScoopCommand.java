@@ -1,11 +1,10 @@
 package command;
 
-public class ScoopCommand implements RobotCommand {
+public class ScoopCommand extends RobotCommand {
 	private boolean scoopUpwards;
-	private Robot _robot;
 
 	public ScoopCommand(Robot robot, boolean scoopUpwards) {
-		this._robot = robot;
+		super(robot);
 		this.scoopUpwards = scoopUpwards;
 	}
 

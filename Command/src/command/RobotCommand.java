@@ -1,8 +1,9 @@
 package command;
 
-public interface RobotCommand {
+public abstract class RobotCommand implements AbstractCommand {
+	protected Robot _robot;
 
-	public abstract void execute();
-
-	public abstract void undo();
+	public RobotCommand(Robot robot) {
+		this._robot = robot;
+	}
 }
