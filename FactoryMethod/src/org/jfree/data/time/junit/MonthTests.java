@@ -62,10 +62,10 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.data.time.Month;
+import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimePeriodFormatException;
 import org.jfree.data.time.Year;
 import org.jfree.date.MonthConstants;
@@ -73,7 +73,7 @@ import org.jfree.date.MonthConstants;
 /**
  * Tests for the {@link Month} class.
  */
-public class MonthTests extends TestCase {
+public class MonthTests extends AbstractTestCase {
 
     /** A month. */
     private Month jan1900;
@@ -296,16 +296,13 @@ public class MonthTests extends TestCase {
      * Some checks for the getFirstMillisecond() method.
      */
     public void testGetFirstMillisecond() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.UK);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Month m = new Month(3, 1970);
-        assertEquals(5094000000L, m.getFirstMillisecond());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
+        testGetFirstMillisecond(5094000000L);
     }
 
+    @Override
+    public RegularTimePeriod getTimePeriod() {
+    	return new Month(3, 1970);
+    }
     /**
      * Some checks for the getFirstMillisecond(TimeZone) method.
      */

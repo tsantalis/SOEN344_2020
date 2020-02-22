@@ -60,18 +60,18 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.data.time.Day;
 import org.jfree.data.time.Hour;
 import org.jfree.data.time.Minute;
+import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.date.MonthConstants;
 
 /**
  * Tests for the {@link Minute} class.
  */
-public class MinuteTests extends TestCase {
+public class MinuteTests extends AbstractTestCase {
 
     /**
      * Returns the tests as a test suite.
@@ -205,16 +205,13 @@ public class MinuteTests extends TestCase {
      * Some checks for the getFirstMillisecond() method.
      */
     public void testGetFirstMillisecond() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.UK);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Minute m = new Minute(43, 15, 1, 4, 2006);
-        assertEquals(1143902580000L, m.getFirstMillisecond());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
+        testGetFirstMillisecond(1143902580000L);
     }
 
+    @Override
+    public RegularTimePeriod getTimePeriod() {
+    	return new Minute(43, 15, 1, 4, 2006);
+    }
     /**
      * Some checks for the getFirstMillisecond(TimeZone) method.
      */

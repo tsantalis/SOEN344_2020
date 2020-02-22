@@ -58,17 +58,17 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.data.time.Quarter;
+import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimePeriodFormatException;
 import org.jfree.data.time.Year;
 
 /**
  * Tests for the {link Quarter} class.
  */
-public class QuarterTests extends TestCase {
+public class QuarterTests extends AbstractTestCase {
 
     /** A quarter. */
     private Quarter q1Y1900;
@@ -316,16 +316,13 @@ public class QuarterTests extends TestCase {
      * Some checks for the getFirstMillisecond() method.
      */
     public void testGetFirstMillisecond() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.UK);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Quarter q = new Quarter(3, 1970);
-        assertEquals(15634800000L, q.getFirstMillisecond());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
+        testGetFirstMillisecond(15634800000L);
     }
 
+    @Override
+    public RegularTimePeriod getTimePeriod() {
+    	return new Quarter(3, 1970);
+    }
     /**
      * Some checks for the getFirstMillisecond(TimeZone) method.
      */

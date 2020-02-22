@@ -60,16 +60,16 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.TimePeriodFormatException;
 import org.jfree.data.time.Year;
 
 /**
  * Tests for the {@link Year} class.
  */
-public class YearTests extends TestCase {
+public class YearTests extends AbstractTestCase {
 
     /**
      * Returns the tests as a test suite.
@@ -283,17 +283,13 @@ public class YearTests extends TestCase {
      * Some checks for the getFirstMillisecond() method.
      */
     public void testGetFirstMillisecond() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.UK);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Year y = new Year(1970);
-        // TODO: Check this result...
-        assertEquals(-3600000L, y.getFirstMillisecond());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
+        testGetFirstMillisecond(-3600000L);
     }
 
+    @Override
+    public RegularTimePeriod getTimePeriod() {
+    	return new Year(1970);
+    }
     /**
      * Some checks for the getFirstMillisecond(TimeZone) method.
      */

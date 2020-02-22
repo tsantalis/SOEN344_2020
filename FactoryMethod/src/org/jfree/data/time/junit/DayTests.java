@@ -64,16 +64,16 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.jfree.data.time.Day;
+import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.date.MonthConstants;
 
 /**
  * Tests for the {@link Day} class.
  */
-public class DayTests extends TestCase {
+public class DayTests extends AbstractTestCase {
 
     /**
      * Returns the tests as a test suite.
@@ -276,14 +276,12 @@ public class DayTests extends TestCase {
      * Some checks for the getFirstMillisecond() method.
      */
     public void testGetFirstMillisecond() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.UK);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Day d = new Day(1, 3, 1970);
-        assertEquals(5094000000L, d.getFirstMillisecond());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
+        testGetFirstMillisecond(5094000000L);
+    }
+
+    @Override
+    public RegularTimePeriod getTimePeriod() {
+    	return new Day(1, 3, 1970);
     }
 
     /**

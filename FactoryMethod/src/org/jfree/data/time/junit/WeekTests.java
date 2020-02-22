@@ -63,16 +63,16 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.Week;
 import org.jfree.data.time.Year;
 
 /**
  * Tests for the {@link Week} class.
  */
-public class WeekTests extends TestCase {
+public class WeekTests extends AbstractTestCase {
 
     /** A week. */
     private Week w1Y1900;
@@ -326,16 +326,13 @@ public class WeekTests extends TestCase {
      * Some checks for the getFirstMillisecond() method.
      */
     public void testGetFirstMillisecond() {
-        Locale saved = Locale.getDefault();
-        Locale.setDefault(Locale.UK);
-        TimeZone savedZone = TimeZone.getDefault();
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Week w = new Week(3, 1970);
-        assertEquals(946800000L, w.getFirstMillisecond());
-        Locale.setDefault(saved);
-        TimeZone.setDefault(savedZone);
+        testGetFirstMillisecond(946800000L);
     }
 
+    @Override
+    public RegularTimePeriod getTimePeriod() {
+    	return new Week(3, 1970);
+    }
     /**
      * Some checks for the getFirstMillisecond(TimeZone) method.
      */
