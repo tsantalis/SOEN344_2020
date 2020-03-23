@@ -45,14 +45,19 @@ public class Jar {
             if (!"".equals(afs.getFullpath(getProject()))) {
                 name = afs.getFullpath(getProject());
             } else if (!"".equals(afs.getPrefix(getProject()))) {
-                String prefix = afs.getPrefix(getProject());
-                if (!prefix.endsWith("/") && !prefix.endsWith("\\")) {
-                    prefix += "/";
-                }
+                String prefix = computePrefix(afs);
                 name = prefix + name;
             }
         }
         return name;
+    }
+
+    private String computePrefix(ArchiveFileSet afs) {
+        String prefix = afs.getPrefix(getProject());
+        if (!prefix.endsWith("/") && !prefix.endsWith("\\")) {
+            prefix += "/";
+        }
+        return prefix;
     }
 
     private Resource[][] getResources(ResourceCollection rc) {
