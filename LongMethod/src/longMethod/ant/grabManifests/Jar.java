@@ -23,14 +23,7 @@ public class Jar {
     public Resource[][] grabManifests(ResourceCollection[] rcs) {
         Resource[][] manifests = new Resource[rcs.length][];
         for (int i = 0; i < rcs.length; i++) {
-            Resource[][] resources = null;
-            if (rcs[i] instanceof FileSet) {
-                resources = grabResources(new FileSet[] {(FileSet) rcs[i]});
-            } else {
-                resources = grabNonFileSetResources(new ResourceCollection[] {
-                        rcs[i]
-                    });
-            }
+            Resource[][] resources = getResources(rcs[i]);
             for (int j = 0; j < resources[0].length; j++) {
                 String name = resources[0][j].getName().replace('\\', '/');
                 if (rcs[i] instanceof ArchiveFileSet) {
@@ -55,6 +48,18 @@ public class Jar {
             }
         }
         return manifests;
+    }
+
+    private Resource[][] getResources(ResourceCollection rc) {
+        Resource[][] resources = null;
+        if (rc instanceof FileSet) {
+            resources = grabResources(new FileSet[] {(FileSet) rc});
+        } else {
+            resources = grabNonFileSetResources(new ResourceCollection[] {
+                    rc
+                });
+        }
+        return resources;
     }
 
     public Project getProject() {
