@@ -328,11 +328,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
 	public void mouseReleased(MouseEvent event)
 	{
-		Point2D mousePoint = new Point2D.Double(event.getX() / zoom,
-				event.getY() / zoom);
-		Object tool = toolBar.getSelectedTool();
+		
 		if (getDragMode() == DRAG_RUBBERBAND)
 		{
+			Point2D mousePoint = new Point2D.Double(event.getX() / zoom,
+					event.getY() / zoom);
+			Object tool = toolBar.getSelectedTool();
 			Edge prototype = (Edge) tool;
 			Edge newEdge = (Edge) prototype.clone();
 			if (mousePoint.distance(mouseDownPoint) > CONNECT_THRESHOLD
