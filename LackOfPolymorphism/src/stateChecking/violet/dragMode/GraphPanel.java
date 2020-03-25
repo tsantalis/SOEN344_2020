@@ -71,12 +71,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
 	private Point2D lastMousePoint;
 	private Point2D mouseDownPoint;   
-	private int dragMode;
+	private DragMode dragMode = new DragNone();
 
-	private static final int DRAG_NONE = 0;
-	private static final int DRAG_MOVE = 1;
-	private static final int DRAG_RUBBERBAND = 2;
-	private static final int DRAG_LASSO = 3;
+	public static final int DRAG_NONE = 0;
+	public static final int DRAG_MOVE = 1;
+	public static final int DRAG_RUBBERBAND = 2;
+	public static final int DRAG_LASSO = 3;
 
 	private static final int GRID = 10;
 
@@ -175,14 +175,14 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 		while (iter.hasNext())      
 			removeSelectedItem(iter.next());                 
 
-		if (dragMode == DRAG_RUBBERBAND)
+		if (getDragMode() == DRAG_RUBBERBAND)
 		{
 			Color oldColor = g2.getColor();
 			g2.setColor(PURPLE);
 			g2.draw(new Line2D.Double(mouseDownPoint, lastMousePoint));
 			g2.setColor(oldColor);
 		}      
-		else if (dragMode == DRAG_LASSO)
+		else if (getDragMode() == DRAG_LASSO)
 		{
 			Color oldColor = g2.getColor();
 			g2.setColor(PURPLE);
@@ -244,13 +244,13 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 		}
 	}
 
-	private void addSelectedItem(Object obj)
+	public void addSelectedItem(Object obj)
 	{
 		lastSelected = obj;      
 		selectedItems.add(obj);
 	}
 
-	private void removeSelectedItem(Object obj)
+	public void removeSelectedItem(Object obj)
 	{
 		if (obj == lastSelected)
 			lastSelected = null;
@@ -306,13 +306,13 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 					addSelectedItem(n);
 				else if (!selectedItems.contains(n))
 					setSelectedItem(n);
-				dragMode = DRAG_MOVE;
+				setDragMode(DRAG_MOVE);
 			}
 			else
 			{
 				if (!isCtrl)
 					clearSelection();
-				dragMode = DRAG_LASSO;
+				setDragMode(DRAG_LASSO);
 			}
 		}
 		else if (tool instanceof Node)
@@ -324,7 +324,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 			{
 				setModified(true);
 				setSelectedItem(newNode);
-				dragMode = DRAG_MOVE;
+				setDragMode(DRAG_MOVE);
 			}
 			else if (n != null)
 			{
@@ -332,12 +332,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 					addSelectedItem(n);
 				else if (!selectedItems.contains(n))
 					setSelectedItem(n);
-				dragMode = DRAG_MOVE;
+				setDragMode(DRAG_MOVE);
 			}
 		}
 		else if (tool instanceof Edge)
 		{
-			if (n != null) dragMode = DRAG_RUBBERBAND;
+			if (n != null) setDragMode(DRAG_RUBBERBAND);
 		}
 
 		lastMousePoint = mousePoint;
@@ -350,7 +350,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 		Point2D mousePoint = new Point2D.Double(event.getX() / zoom,
 				event.getY() / zoom);
 		Object tool = toolBar.getSelectedTool();
-		if (dragMode == DRAG_RUBBERBAND)
+		if (getDragMode() == DRAG_RUBBERBAND)
 		{
 			Edge prototype = (Edge) tool;
 			Edge newEdge = (Edge) prototype.clone();
@@ -361,13 +361,13 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 				setSelectedItem(newEdge);
 			}
 		}
-		else if (dragMode == DRAG_MOVE)
+		else if (getDragMode() == DRAG_MOVE)
 		{
 			graph.layout();
 			setModified(true);
 		}
 
-		dragMode = DRAG_NONE;
+		setDragMode(DRAG_NONE);
 
 		revalidate();
 		repaint();
@@ -389,81 +389,64 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 	{
 		
 
-		if (dragMode == DRAG_MOVE && lastSelected instanceof Node)
-		{
-			Point2D mousePoint = new Point2D.Double(event.getX() / zoom, 
-					event.getY() / zoom);
-			Node lastNode = (Node) lastSelected;
-			Rectangle2D bounds = lastNode.getBounds();
-			double dx = mousePoint.getX() - lastMousePoint.getX();
-			double dy = mousePoint.getY() - lastMousePoint.getY();
-
-			// we don't want to drag nodes into negative coordinates
-			// particularly with multiple selection, we might never be 
-			// able to get them back.
-			Iterator iter = selectedItems.iterator();
-			while (iter.hasNext())
-			{
-				Object selected = iter.next();                 
-				if (selected instanceof Node)
-				{
-					Node n = (Node) selected;
-					bounds.add(n.getBounds());
-				}
-			}
-			dx = Math.max(dx, -bounds.getX());
-			dy = Math.max(dy, -bounds.getY());
-
-			iter = selectedItems.iterator();
-			while (iter.hasNext())
-			{
-				Object selected = iter.next();                 
-				if (selected instanceof Node)
-				{
-					Node n = (Node) selected;
-					// If the father is selected, don't move the children
-					if (!selectedItems.contains(n.getParent()))
-					{
-						n.translate(dx, dy);
-					}
-				}
-			}
-			// we don't want continuous layout any more because of multiple selection
-			// graph.layout();
-			lastMousePoint = mousePoint;
-		}            
-		else if (dragMode == DRAG_LASSO)
-		{
-			Point2D mousePoint = new Point2D.Double(event.getX() / zoom, 
-					event.getY() / zoom);
-			boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
-			double x1 = mouseDownPoint.getX();
-			double y1 = mouseDownPoint.getY();
-			double x2 = mousePoint.getX();
-			double y2 = mousePoint.getY();
-			Rectangle2D.Double lasso = new Rectangle2D.Double(Math.min(x1, x2), 
-					Math.min(y1, y2), Math.abs(x1 - x2) , Math.abs(y1 - y2));
-			Iterator iter = graph.getNodes().iterator();
-			while (iter.hasNext())
-			{
-				Node n = (Node) iter.next();
-				Rectangle2D bounds = n.getBounds();
-				if (!isCtrl && !lasso.contains(bounds)) 
-				{
-					removeSelectedItem(n);
-				}
-				else if (lasso.contains(bounds)) 
-				{
-					addSelectedItem(n);
-				}
-			}
-			lastMousePoint = mousePoint;
-		}
+		dragMode.mouseDragged(event, this);
 
 		repaint();
 	}
 
 	public void mouseMoved(MouseEvent arg0) {
 
+	}
+
+	public void setDragMode(int dragMode) {
+		switch (dragMode) {
+		case DRAG_LASSO:
+			this.dragMode = new DragLasso();
+			break;
+		case DRAG_MOVE:
+			this.dragMode = new DragMove();
+			break;
+		case DRAG_RUBBERBAND:
+			this.dragMode = new DragRubberband();
+			break;
+		case DRAG_NONE:
+			this.dragMode = new DragNone();
+			break;
+		default:
+			this.dragMode = null;
+			break;
+		}
+	}
+
+	public int getDragMode() {
+		return dragMode.getDragMode();
+	}
+
+	public double getZoom() {
+		return zoom;
+	}
+
+	public Point2D getMouseDownPoint() {
+		return mouseDownPoint;
+	}
+
+	public Graph getGraph() {
+		return graph;
+	}
+
+	public Object getLastSelected() {
+		return lastSelected;
+	}
+
+	public Point2D getLastMousePoint() {
+		return lastMousePoint;
+	}
+
+	public Set getSelectedItems() {
+		return selectedItems;
+	}
+
+	public void setLastMousePoint(Point2D lastMousePoint) {
+		this.lastMousePoint = lastMousePoint;
 	}
 }
