@@ -17,4 +17,7 @@ public class DragNone extends DragMode {
 
 	public void paintComponent(Graphics2D g2, GraphPanel graphPanel) {
 	}
+
+	public void mouseReleased(MouseEvent event, GraphPanel graphPanel) {
+	}
 }

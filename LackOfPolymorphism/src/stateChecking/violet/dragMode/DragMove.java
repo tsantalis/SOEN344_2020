@@ -50,4 +50,9 @@ public class DragMove extends DragMode {
 
 	public void paintComponent(Graphics2D g2, GraphPanel graphPanel) {
 	}
+
+	public void mouseReleased(MouseEvent event, GraphPanel graphPanel) {
+		graphPanel.getGraph().layout();
+		graphPanel.setModified(true);
+	}
 }
