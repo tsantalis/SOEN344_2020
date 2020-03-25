@@ -387,12 +387,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
 	public void mouseDragged(MouseEvent event)
 	{
-		Point2D mousePoint = new Point2D.Double(event.getX() / zoom, 
-				event.getY() / zoom);
-		boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0; 
+		
 
 		if (dragMode == DRAG_MOVE && lastSelected instanceof Node)
-		{               
+		{
+			Point2D mousePoint = new Point2D.Double(event.getX() / zoom, 
+					event.getY() / zoom);
 			Node lastNode = (Node) lastSelected;
 			Rectangle2D bounds = lastNode.getBounds();
 			double dx = mousePoint.getX() - lastMousePoint.getX();
@@ -430,9 +430,13 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 			}
 			// we don't want continuous layout any more because of multiple selection
 			// graph.layout();
+			lastMousePoint = mousePoint;
 		}            
 		else if (dragMode == DRAG_LASSO)
 		{
+			Point2D mousePoint = new Point2D.Double(event.getX() / zoom, 
+					event.getY() / zoom);
+			boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
 			double x1 = mouseDownPoint.getX();
 			double y1 = mouseDownPoint.getY();
 			double x2 = mousePoint.getX();
@@ -453,9 +457,9 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 					addSelectedItem(n);
 				}
 			}
+			lastMousePoint = mousePoint;
 		}
 
-		lastMousePoint = mousePoint;
 		repaint();
 	}
 
