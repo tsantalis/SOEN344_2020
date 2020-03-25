@@ -12,11 +12,15 @@ import java.util.Iterator;
  * @see stateChecking.violet.dragMode.GraphPanel#DRAG_MOVE
  */
 public class DragMove extends DragMode {
+	public DragMove(GraphPanel graphPanel) {
+		super(graphPanel);
+	}
+
 	public int getDragMode() {
 		return GraphPanel.DRAG_MOVE;
 	}
 
-	public void mouseDragged(MouseEvent event, GraphPanel graphPanel) {
+	public void mouseDragged(MouseEvent event) {
 		if (graphPanel.getLastSelected() instanceof Node) {
 			Point2D mousePoint = new Point2D.Double(event.getX() / graphPanel.getZoom(),
 					event.getY() / graphPanel.getZoom());
@@ -48,10 +52,10 @@ public class DragMove extends DragMode {
 		}
 	}
 
-	public void paintComponent(Graphics2D g2, GraphPanel graphPanel) {
+	public void paintComponent(Graphics2D g2) {
 	}
 
-	public void mouseReleased(MouseEvent event, GraphPanel graphPanel) {
+	public void mouseReleased(MouseEvent event) {
 		graphPanel.getGraph().layout();
 		graphPanel.setModified(true);
 	}

@@ -71,7 +71,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
 	private Point2D lastMousePoint;
 	private Point2D mouseDownPoint;   
-	private DragMode dragMode = new DragNone();
+	private DragMode dragMode = new DragNone(this);
 
 	public static final int DRAG_NONE = 0;
 	public static final int DRAG_MOVE = 1;
@@ -175,7 +175,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 		while (iter.hasNext())      
 			removeSelectedItem(iter.next());                 
 
-		dragMode.paintComponent(g2, this);
+		dragMode.paintComponent(g2);
 	}
 
 	/**
@@ -329,7 +329,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 	public void mouseReleased(MouseEvent event)
 	{
 		
-		dragMode.mouseReleased(event, this);
+		dragMode.mouseReleased(event);
 
 		setDragMode(DRAG_NONE);
 
@@ -353,7 +353,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 	{
 		
 
-		dragMode.mouseDragged(event, this);
+		dragMode.mouseDragged(event);
 
 		repaint();
 	}
@@ -365,16 +365,16 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 	public void setDragMode(int dragMode) {
 		switch (dragMode) {
 		case DRAG_LASSO:
-			this.dragMode = new DragLasso();
+			this.dragMode = new DragLasso(this);
 			break;
 		case DRAG_MOVE:
-			this.dragMode = new DragMove();
+			this.dragMode = new DragMove(this);
 			break;
 		case DRAG_RUBBERBAND:
-			this.dragMode = new DragRubberband();
+			this.dragMode = new DragRubberband(this);
 			break;
 		case DRAG_NONE:
-			this.dragMode = new DragNone();
+			this.dragMode = new DragNone(this);
 			break;
 		default:
 			this.dragMode = null;

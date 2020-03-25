@@ -14,11 +14,15 @@ import com.horstmann.violet.framework.Node;
  * @see stateChecking.violet.dragMode.GraphPanel#DRAG_LASSO
  */
 public class DragLasso extends DragMode {
+	public DragLasso(GraphPanel graphPanel) {
+		super(graphPanel);
+	}
+
 	public int getDragMode() {
 		return GraphPanel.DRAG_LASSO;
 	}
 
-	public void mouseDragged(MouseEvent event, GraphPanel graphPanel) {
+	public void mouseDragged(MouseEvent event) {
 		Point2D mousePoint = new Point2D.Double(event.getX() / graphPanel.getZoom(),
 				event.getY() / graphPanel.getZoom());
 		boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0;
@@ -41,7 +45,7 @@ public class DragLasso extends DragMode {
 		graphPanel.setLastMousePoint(mousePoint);
 	}
 
-	public void paintComponent(Graphics2D g2, GraphPanel graphPanel) {
+	public void paintComponent(Graphics2D g2) {
 		Color oldColor = g2.getColor();
 		g2.setColor(GraphPanel.PURPLE);
 		double x1 = graphPanel.getMouseDownPoint().getX();
@@ -54,6 +58,6 @@ public class DragLasso extends DragMode {
 		g2.setColor(oldColor);
 	}
 
-	public void mouseReleased(MouseEvent event, GraphPanel graphPanel) {
+	public void mouseReleased(MouseEvent event) {
 	}
 }
