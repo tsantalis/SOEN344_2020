@@ -175,26 +175,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 		while (iter.hasNext())      
 			removeSelectedItem(iter.next());                 
 
-		if (getDragMode() == DRAG_RUBBERBAND)
-		{
-			Color oldColor = g2.getColor();
-			g2.setColor(PURPLE);
-			g2.draw(new Line2D.Double(mouseDownPoint, lastMousePoint));
-			g2.setColor(oldColor);
-		}      
-		else if (getDragMode() == DRAG_LASSO)
-		{
-			Color oldColor = g2.getColor();
-			g2.setColor(PURPLE);
-			double x1 = mouseDownPoint.getX();
-			double y1 = mouseDownPoint.getY();
-			double x2 = lastMousePoint.getX();
-			double y2 = lastMousePoint.getY();
-			Rectangle2D.Double lasso = new Rectangle2D.Double(Math.min(x1, x2), 
-					Math.min(y1, y2), Math.abs(x1 - x2) , Math.abs(y1 - y2));
-			g2.draw(lasso);
-			g2.setColor(oldColor);
-		}
+		dragMode.paintComponent(g2, this);
 	}
 
 	/**

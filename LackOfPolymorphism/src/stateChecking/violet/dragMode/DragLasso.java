@@ -3,6 +3,8 @@ package stateChecking.violet.dragMode;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.InputEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
@@ -37,5 +39,18 @@ public class DragLasso extends DragMode {
 			}
 		}
 		graphPanel.setLastMousePoint(mousePoint);
+	}
+
+	public void paintComponent(Graphics2D g2, GraphPanel graphPanel) {
+		Color oldColor = g2.getColor();
+		g2.setColor(GraphPanel.PURPLE);
+		double x1 = graphPanel.getMouseDownPoint().getX();
+		double y1 = graphPanel.getMouseDownPoint().getY();
+		double x2 = graphPanel.getLastMousePoint().getX();
+		double y2 = graphPanel.getLastMousePoint().getY();
+		Rectangle2D.Double lasso = new Rectangle2D.Double(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2),
+				Math.abs(y1 - y2));
+		g2.draw(lasso);
+		g2.setColor(oldColor);
 	}
 }

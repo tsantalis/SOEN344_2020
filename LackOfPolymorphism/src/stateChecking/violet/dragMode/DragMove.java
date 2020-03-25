@@ -1,6 +1,7 @@
 package stateChecking.violet.dragMode;
 
 
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import com.horstmann.violet.framework.Node;
@@ -45,5 +46,8 @@ public class DragMove extends DragMode {
 			}
 			graphPanel.setLastMousePoint(mousePoint);
 		}
+	}
+
+	public void paintComponent(Graphics2D g2, GraphPanel graphPanel) {
 	}
 }
