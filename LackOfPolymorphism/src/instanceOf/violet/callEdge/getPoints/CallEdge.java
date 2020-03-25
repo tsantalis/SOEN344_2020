@@ -58,15 +58,16 @@ public class CallEdge extends SegmentedLineEdge
 
 	public ArrayList<Point2D> getPoints()
 	{
-		ArrayList<Point2D> a = new ArrayList<Point2D>();
-		Node n = getEnd();
-		Rectangle2D start = getStart().getBounds();
-		Rectangle2D end = n.getBounds();
+		Node endNode = getEnd();
+		Node startNode = getStart();
 
-		if (n instanceof CallNode &&
-				((CallNode)n).getImplicitParameter() ==
-				((CallNode)getStart()).getImplicitParameter())
+		if (endNode instanceof CallNode &&
+				((CallNode)endNode).getImplicitParameter() ==
+				((CallNode)startNode).getImplicitParameter())
 		{
+			ArrayList<Point2D> a = new ArrayList<Point2D>();
+			Rectangle2D start = startNode.getBounds();
+			Rectangle2D end = endNode.getBounds();
 			Point2D p = new Point2D.Double(start.getMaxX(), end.getY() - CallNode.CALL_YGAP / 2);
 			Point2D q = new Point2D.Double(end.getMaxX(), end.getY());
 			Point2D s = new Point2D.Double(q.getX() + end.getWidth(), q.getY());
@@ -75,16 +76,24 @@ public class CallEdge extends SegmentedLineEdge
 			a.add(r);
 			a.add(s);
 			a.add(q);
+			return a;
 		}
-		else if (n instanceof PointNode) // show nicely in tool bar
+		else if (endNode instanceof PointNode) // show nicely in tool bar
 		{
+			ArrayList<Point2D> a = new ArrayList<Point2D>();
+			Rectangle2D start = startNode.getBounds();
+			Rectangle2D end = endNode.getBounds();
 			a.add(new Point2D.Double(start.getMaxX(), start.getY()));
 			a.add(new Point2D.Double(end.getX(), start.getY()));
+			return a;
 		}
 		else
 		{
+			ArrayList<Point2D> a = new ArrayList<Point2D>();
+			Rectangle2D start = startNode.getBounds();
+			Rectangle2D end = endNode.getBounds();
 			Direction d = new Direction(start.getX() - end.getX(), 0);
-			Point2D endPoint = getEnd().getConnectionPoint(d);
+			Point2D endPoint = endNode.getConnectionPoint(d);
 
 			if (start.getCenterX() < endPoint.getX())
 				a.add(new Point2D.Double(start.getMaxX(),
@@ -93,8 +102,8 @@ public class CallEdge extends SegmentedLineEdge
 				a.add(new Point2D.Double(start.getX(),
 						endPoint.getY()));
 			a.add(endPoint);
+			return a;
 		}
-		return a;
 	}
 
 	private boolean signal;
