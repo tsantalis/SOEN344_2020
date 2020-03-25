@@ -23,7 +23,7 @@ package instanceOf.violet.callEdge.getPoints;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
+import java.util.ArrayList;
 import com.horstmann.violet.framework.Direction;
 
 
@@ -70,4 +70,13 @@ public class PointNode extends AbstractNode
 	}
 
 	private Point2D point;
+
+	public ArrayList<Point2D> getPoints(Node startNode) {
+		ArrayList<Point2D> a = new ArrayList<Point2D>();
+		Rectangle2D start = startNode.getBounds();
+		Rectangle2D end = this.getBounds();
+		a.add(new Point2D.Double(start.getMaxX(), start.getY()));
+		a.add(new Point2D.Double(end.getX(), start.getY()));
+		return a;
+	}
 }

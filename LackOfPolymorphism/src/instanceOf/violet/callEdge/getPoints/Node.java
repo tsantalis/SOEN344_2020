@@ -24,6 +24,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.horstmann.violet.framework.Direction;
@@ -145,4 +146,6 @@ public interface Node extends Serializable, Cloneable
 	void removeChild(Node node);
 
 	Object clone();
+
+	public abstract ArrayList<Point2D> getPoints(Node startNode);
 }

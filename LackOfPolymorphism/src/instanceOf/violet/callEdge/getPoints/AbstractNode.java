@@ -24,12 +24,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
 import java.beans.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.horstmann.violet.framework.Direction;
 import com.horstmann.violet.framework.Grid;
 
 
@@ -185,5 +186,19 @@ public abstract class AbstractNode implements Node
 	}
 	private ArrayList children;
 	private Node parent;
+
+	public ArrayList<Point2D> getPoints(Node startNode) {
+		ArrayList<Point2D> a = new ArrayList<Point2D>();
+		Rectangle2D start = startNode.getBounds();
+		Rectangle2D end = this.getBounds();
+		Direction d = new Direction(start.getX() - end.getX(), 0);
+		Point2D endPoint = this.getConnectionPoint(d);
+		if (start.getCenterX() < endPoint.getX())
+			a.add(new Point2D.Double(start.getMaxX(), endPoint.getY()));
+		else
+			a.add(new Point2D.Double(start.getX(), endPoint.getY()));
+		a.add(endPoint);
+		return a;
+	}
 }
 

@@ -27,6 +27,7 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -300,4 +301,22 @@ public class CallNode extends RectangularNode
 	 private static int DEFAULT_WIDTH = 16;
 	 private static int DEFAULT_HEIGHT = 30;
 	 public static int CALL_YGAP = 20;
+	public ArrayList<Point2D> getPoints(Node startNode) {
+		if (this.getImplicitParameter() == ((CallNode) startNode).getImplicitParameter()) {
+			ArrayList<Point2D> a = new ArrayList<Point2D>();
+			Rectangle2D start = startNode.getBounds();
+			Rectangle2D end = this.getBounds();
+			Point2D p = new Point2D.Double(start.getMaxX(), end.getY() - CallNode.CALL_YGAP / 2);
+			Point2D q = new Point2D.Double(end.getMaxX(), end.getY());
+			Point2D s = new Point2D.Double(q.getX() + end.getWidth(), q.getY());
+			Point2D r = new Point2D.Double(s.getX(), p.getY());
+			a.add(p);
+			a.add(r);
+			a.add(s);
+			a.add(q);
+			return a;
+		} else {
+			return super.getPoints(startNode);
+		}
+	}
 }
