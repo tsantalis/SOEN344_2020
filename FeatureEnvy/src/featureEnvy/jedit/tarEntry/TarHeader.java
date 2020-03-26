@@ -15,6 +15,7 @@
 
 package featureEnvy.jedit.tarEntry;
 
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -518,6 +519,42 @@ TarHeader extends Object
 			sum += 255 & buf[i];
 		}
 		return sum;
+	}
+
+	public void file(File file) {
+		String name = file.getPath();
+		String osname = System.getProperty("os.name");
+		if (osname != null) {
+			String Win32Prefix = "windows";
+			if (osname.toLowerCase().startsWith(Win32Prefix)) {
+				if (name.length() > 2) {
+					char ch1 = name.charAt(0);
+					char ch2 = name.charAt(1);
+					if (ch2 == ':' && ((ch1 >= 'a' && ch1 <= 'z') || (ch1 >= 'A' && ch1 <= 'Z'))) {
+						name = name.substring(2);
+					}
+				}
+			}
+		}
+		name = name.replace(File.separatorChar, '/');
+		for (; name.startsWith("/");)
+			name = name.substring(1);
+		this.linkName = new StringBuffer("");
+		this.name = new StringBuffer(name);
+		if (file.isDirectory()) {
+			this.mode = 040755;
+			this.linkFlag = TarHeader.LF_DIR;
+			if (this.name.charAt(this.name.length() - 1) != '/')
+				this.name.append("/");
+		} else {
+			this.mode = 0100644;
+			this.linkFlag = TarHeader.LF_NORMAL;
+		}
+		this.size = file.length();
+		this.modTime = file.lastModified() / 1000;
+		this.checkSum = 0;
+		this.devMajor = 0;
+		this.devMinor = 0;
 	}
 
 	}
