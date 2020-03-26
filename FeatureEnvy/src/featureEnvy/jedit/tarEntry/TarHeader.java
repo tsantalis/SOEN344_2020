@@ -15,6 +15,8 @@
 
 package featureEnvy.jedit.tarEntry;
 
+import java.util.Date;
+
 /**
  * This class encapsulates the Tar Entry Header used in Tar Archives.
  * The class also holds a number of tar constants, used mostly in headers.
@@ -450,6 +452,30 @@ TarHeader extends Object
 		this.devMajor = (int) TarHeader.parseOctal(header, offset, TarHeader.DEVLEN);
 		offset += TarHeader.DEVLEN;
 		this.devMinor = (int) TarHeader.parseOctal(header, offset, TarHeader.DEVLEN);
+	}
+
+	/**
+	 * Fill in a TarHeader given only the entry's name.
+	 * @param name  The tar entry name.
+	 */
+	public void name(String name) {
+		boolean isDir = name.endsWith("/");
+		this.checkSum = 0;
+		this.devMajor = 0;
+		this.devMinor = 0;
+		this.name = new StringBuffer(name);
+		this.mode = isDir ? 040755 : 0100644;
+		this.userId = 0;
+		this.groupId = 0;
+		this.size = 0;
+		this.checkSum = 0;
+		this.modTime = (new java.util.Date()).getTime() / 1000;
+		this.linkFlag = isDir ? TarHeader.LF_DIR : TarHeader.LF_NORMAL;
+		this.linkName = new StringBuffer("");
+		this.userName = new StringBuffer("");
+		this.groupName = new StringBuffer("");
+		this.devMajor = 0;
+		this.devMinor = 0;
 	}
 
 	}
