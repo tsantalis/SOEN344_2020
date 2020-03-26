@@ -433,6 +433,10 @@ extends		Object
 		{
 		this.file = file;
 
+		file(hdr, file);
+		}
+
+	private void file(TarHeader hdr, File file) {
 		String name = file.getPath();
 		String osname = System.getProperty( "os.name" );
 		if ( osname != null )
@@ -497,7 +501,7 @@ extends		Object
 		hdr.checkSum = 0;
 		hdr.devMajor = 0;
 		hdr.devMinor = 0;
-		}
+	}
 
 	/**
 	 * If this entry represents a file, and the file is a directory, return
