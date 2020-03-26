@@ -418,5 +418,39 @@ TarHeader extends Object
 		return offset + length;
 		}
 
+	/**
+	 * Parse an entry's TarHeader information from a header buffer.
+	 * @param header  The tar entry header buffer to get information from.
+	 */
+	public void parse(byte[] header) throws InvalidHeaderException {
+		int offset = 0;
+		this.name = TarHeader.parseName(header, offset, TarHeader.NAMELEN);
+		offset += TarHeader.NAMELEN;
+		this.mode = (int) TarHeader.parseOctal(header, offset, TarHeader.MODELEN);
+		offset += TarHeader.MODELEN;
+		this.userId = (int) TarHeader.parseOctal(header, offset, TarHeader.UIDLEN);
+		offset += TarHeader.UIDLEN;
+		this.groupId = (int) TarHeader.parseOctal(header, offset, TarHeader.GIDLEN);
+		offset += TarHeader.GIDLEN;
+		this.size = TarHeader.parseOctal(header, offset, TarHeader.SIZELEN);
+		offset += TarHeader.SIZELEN;
+		this.modTime = TarHeader.parseOctal(header, offset, TarHeader.MODTIMELEN);
+		offset += TarHeader.MODTIMELEN;
+		this.checkSum = (int) TarHeader.parseOctal(header, offset, TarHeader.CHKSUMLEN);
+		offset += TarHeader.CHKSUMLEN;
+		this.linkFlag = header[offset++];
+		this.linkName = TarHeader.parseName(header, offset, TarHeader.NAMELEN);
+		offset += TarHeader.NAMELEN;
+		this.magic = TarHeader.parseName(header, offset, TarHeader.MAGICLEN);
+		offset += TarHeader.MAGICLEN;
+		this.userName = TarHeader.parseName(header, offset, TarHeader.UNAMELEN);
+		offset += TarHeader.UNAMELEN;
+		this.groupName = TarHeader.parseName(header, offset, TarHeader.GNAMELEN);
+		offset += TarHeader.GNAMELEN;
+		this.devMajor = (int) TarHeader.parseOctal(header, offset, TarHeader.DEVLEN);
+		offset += TarHeader.DEVLEN;
+		this.devMinor = (int) TarHeader.parseOctal(header, offset, TarHeader.DEVLEN);
+	}
+
 	}
  
