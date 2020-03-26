@@ -478,5 +478,47 @@ TarHeader extends Object
 		this.devMinor = 0;
 	}
 
+	/**
+	 * Write an entry's header information to a header buffer.
+	 * @param outbuf  The tar entry header buffer to fill in.
+	 */
+	public void writeEntry(byte[] outbuf) {
+		int offset = 0;
+		offset = TarHeader.getNameBytes(this.name, outbuf, offset, TarHeader.NAMELEN);
+		offset = TarHeader.getOctalBytes(this.mode, outbuf, offset, TarHeader.MODELEN);
+		offset = TarHeader.getOctalBytes(this.userId, outbuf, offset, TarHeader.UIDLEN);
+		offset = TarHeader.getOctalBytes(this.groupId, outbuf, offset, TarHeader.GIDLEN);
+		long size = this.size;
+		offset = TarHeader.getLongOctalBytes(size, outbuf, offset, TarHeader.SIZELEN);
+		offset = TarHeader.getLongOctalBytes(this.modTime, outbuf, offset, TarHeader.MODTIMELEN);
+		int csOffset = offset;
+		for (int c = 0; c < TarHeader.CHKSUMLEN; ++c)
+			outbuf[offset++] = (byte) ' ';
+		outbuf[offset++] = this.linkFlag;
+		offset = TarHeader.getNameBytes(this.linkName, outbuf, offset, TarHeader.NAMELEN);
+		offset = TarHeader.getNameBytes(this.magic, outbuf, offset, TarHeader.MAGICLEN);
+		offset = TarHeader.getNameBytes(this.userName, outbuf, offset, TarHeader.UNAMELEN);
+		offset = TarHeader.getNameBytes(this.groupName, outbuf, offset, TarHeader.GNAMELEN);
+		offset = TarHeader.getOctalBytes(this.devMajor, outbuf, offset, TarHeader.DEVLEN);
+		offset = TarHeader.getOctalBytes(this.devMinor, outbuf, offset, TarHeader.DEVLEN);
+		for (; offset < outbuf.length;)
+			outbuf[offset++] = 0;
+		long checkSum = this.computeCheckSum(outbuf);
+		TarHeader.getCheckSumOctalBytes(checkSum, outbuf, csOffset, TarHeader.CHKSUMLEN);
+	}
+
+	/**
+	 * Compute the checksum of a tar entry header.
+	 * @param buf  The tar entry's header buffer.
+	 * @return  The computed checksum.
+	 */
+	public long computeCheckSum(byte[] buf) {
+		long sum = 0;
+		for (int i = 0; i < buf.length; ++i) {
+			sum += 255 & buf[i];
+		}
+		return sum;
+	}
+
 	}
  
