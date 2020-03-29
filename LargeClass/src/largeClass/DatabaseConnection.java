@@ -75,4 +75,9 @@ public class DatabaseConnection {
 			sqle.printStackTrace();
 		}
 	}
+
+	public boolean isClosed() throws SQLException {
+		return connection.isClosed();
+	}
+
 }
