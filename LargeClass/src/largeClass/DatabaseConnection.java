@@ -2,7 +2,9 @@ package largeClass;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseConnection {
 	private Connection connection = null;
@@ -27,4 +29,34 @@ public class DatabaseConnection {
 		System.out.println("Successfully connected to database.");
 		
 	}
+	/**
+     * Creates a Statement in such a way so that the result set
+     * can be traversed both forward and backward, as well as
+     * being read-only.
+     * @param connection the connection to the database where
+     * the statement should be created
+     * @return the statement created, null otherwise
+     */
+    public Statement createStatement() {
+    	
+        Statement statement = null;
+        
+        try {
+        	
+        	if (connection == null){
+            	System.err.println(this.getClass().getName() + "Error: unable to create Statement object.");
+            	System.exit(-1);
+            }
+        	
+            statement = connection.createStatement(
+            		ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+
+        } catch (SQLException sqle) {
+            System.err.println("Could not create statement");
+            sqle.printStackTrace();
+        }
+        
+        return statement;
+    }
 }
