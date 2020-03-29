@@ -59,4 +59,20 @@ public class DatabaseConnection {
         
         return statement;
     }
+
+    /**
+	 * Closes the connection to the database.
+	 */
+	public void closeConnection(){
+		
+		try {
+			
+			this.connection.close();
+			System.out.println("Database connection closed.");
+			
+		} catch (SQLException sqle) {
+			System.err.println("Can not close the database connection");
+			sqle.printStackTrace();
+		}
+	}
 }
